@@ -1,4 +1,4 @@
-defmodule EerfWeb.PageController do
+defmodule EerfWeb.HomeController do
   use EerfWeb, :controller
 
   def index(conn, _params) do

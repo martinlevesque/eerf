@@ -16,7 +16,8 @@ defmodule EerfWeb.Router do
   scope "/", EerfWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", HomeController, :index
+    get "/at/:id", AtController, :index
   end
 
   # Other scopes may use custom stacks.

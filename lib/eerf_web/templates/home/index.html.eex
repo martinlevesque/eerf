@@ -1,0 +1,11 @@
+<p>Welcome to <b>EERF</b>. You can go to <a href="/boards/anonymous">the public board</a>
+or create a new one using the form below.
+</p><p>
+To collaborate on a drawing in real time with someone,
+just send them its URL.
+</p>
+
+<form action="boards" method="GET">
+	<input type="text" id="board" name="board" placeholder="Name of the board..."/>
+	<input type="submit" value="Go">
+</form>
