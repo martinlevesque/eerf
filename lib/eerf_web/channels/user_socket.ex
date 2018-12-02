@@ -1,8 +1,8 @@
 defmodule EerfWeb.UserSocket do
   use Phoenix.Socket
 
-  ## Channels
-  # channel "room:*", EerfWeb.RoomChannel
+  ## Channelins
+  channel "topic:*", EerfWeb.RoomChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
@@ -16,6 +16,7 @@ defmodule EerfWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(_params, socket, _connect_info) do
+    IO.puts "hello world.."
     {:ok, socket}
   end
 

@@ -25,6 +25,7 @@
  */
 
 (function eraser() { //Code isolation
+	var Tools = window.Tools;
 
 	var erasing = false;
 

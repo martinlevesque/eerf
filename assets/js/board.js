@@ -1,7 +1,7 @@
 /**
  *                        WHITEBOPHIR
  *********************************************************
- * @licstart  The following is the entire license notice for the 
+ * @licstart  The following is the entire license notice for the
  *  JavaScript code in this page.
  *
  * Copyright (C) 2013  Ophir LOJKINE
@@ -24,10 +24,14 @@
  * @licend
  */
 
-var Tools = {};
+window.Tools = {}
+var Tools = window.Tools;
 
 Tools.board = document.getElementById("board");
 Tools.svg = document.getElementById("canvas");
+
+console.log('in board.. ', window)
+
 Tools.socket = io.connect('', {
 	"reconnectionDelay": 100, //Make the xhr connections as fast as possible
 	"timeout": 1000 * 60 * 20 // Timeout after 20 minutes
@@ -141,7 +145,7 @@ Tools.change = function (toolName) {
 		Tools.board.addEventListener(event, listener, { 'passive': false });
 	}
 
-	//Call the start callback of the new tool 
+	//Call the start callback of the new tool
 	newtool.onstart(Tools.curTool);
 	Tools.curTool = newtool;
 };

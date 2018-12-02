@@ -47,15 +47,7 @@
 
 
 <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
-<script type="text/javascript" src="/js/path-data-polyfill.js"></script>
-<script type="text/javascript" src="/js/minitpl.js"></script>
-<script type="text/javascript" src="/js/board.js"></script>
-<script type="text/javascript" src="/js/tools/pencil/pencil.js"></script>
-<script type="text/javascript" src="/js/tools/text/text.js"></script>
-<script type="text/javascript" src="/js/tools/eraser/eraser.js"></script>
-<script type="text/javascript" src="/js/tools/hand/hand.js"></script>
-<script type="text/javascript" src="/js/tools/line/line.js"></script>
-<script type="text/javascript" src="/js/tools/rect/rect.js"></script>
+<!--<script type="text/javascript" src="/js/path-data-polyfill.js"></script>-->
 <script type="text/javascript" src="/js/canvascolor/canvascolor.min.js"></script>
 
 </body>

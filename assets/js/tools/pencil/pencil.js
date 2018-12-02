@@ -25,6 +25,7 @@
  */
 
 (function () { //Code isolation
+	var Tools = window.Tools;
 	//Indicates the id of the line the user is currently drawing or an empty string while the user is not drawing
 	var curLineId = "",
 		curPoint = { //The data of the message that will be sent for every new point

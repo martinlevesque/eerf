@@ -1,7 +1,7 @@
 /**
  *                        MINITPL
  *********************************************************
- * @licstart  The following is the entire license notice for the 
+ * @licstart  The following is the entire license notice for the
  *  JavaScript code in this page.
  *
  * Copyright (C) 2013  Ophir LOJKINE
@@ -61,4 +61,3 @@ Minitpl = (function () {
 
 	return Minitpl;
 }());
-

@@ -14,4 +14,20 @@ import "phoenix_html"
 // Import local files
 //
 // Local files can be imported directly using relative paths, for example:
-// import socket from "./socket"
+import "./path-data-polyfill"
+
+import "./socket"
+
+import "./minitpl"
+import "./board"
+
+import "./tools/pencil/pencil"
+import "./tools/eraser/eraser"
+import "./tools/hand/hand"
+import "./tools/line/line"
+import "./tools/rect/rect"
+import "./tools/text/text"
+
+//import Pencil from "./tools/pencil/pencil"
+
+//Pencil(Tools)
