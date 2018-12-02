@@ -2,7 +2,8 @@ defmodule EerfWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channelins
-  channel "topic:*", EerfWeb.RoomChannel
+  channel "room:*", EerfWeb.RoomChannel
+  channel "user:*", EerfWeb.UserChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

@@ -30,20 +30,41 @@ var Tools = window.Tools;
 Tools.board = document.getElementById("board");
 Tools.svg = document.getElementById("canvas");
 
-console.log('in board.. ', window)
 
-Tools.socket = io.connect('', {
+Tools.socket = null;
+/*io.connect('', {
 	"reconnectionDelay": 100, //Make the xhr connections as fast as possible
 	"timeout": 1000 * 60 * 20 // Timeout after 20 minutes
 });
+*/
+
 Tools.curTool = null;
 Tools.boardName = (function () {
 	var path = window.location.pathname.split("/");
 	return path[path.length - 1];
 })();
 
-//Get the board as soon as the page is loaded
-Tools.socket.emit("getboard", Tools.boardName);
+const channelRoom = window.socket.channel(`room:${Tools.boardName}`, {});
+
+channelRoom.join()
+  .receive("ok", resp => {
+    console.log("Joined successfully", resp)
+    // channelRoom.push('get-board', { board_name: Tools.boardName })
+  })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+
+channelRoom.on("private", (message) => {
+  console.log("message!!!", message)
+});
+
+const channelUser = window.socket.channel(`user:${Tools.boardName}:meh`, {});
+
+channelUser.join()
+  .receive("ok", resp => {
+    console.log("Joined successfully", resp)
+    channelUser.push('get-board', { board_name: Tools.boardName })
+  })
+  .receive("error", resp => { console.log("Unable to join", resp) })
 
 Tools.HTML = {
 	template: new Minitpl("#tools > .tool"),
@@ -155,11 +176,14 @@ Tools.send = function (data, toolName) {
 	var d = data;
 	d.tool = toolName;
 	Tools.applyHooks(Tools.messageHooks, d);
+
 	var message = {
 		"board": Tools.boardName,
 		"data": d
 	}
-	Tools.socket.emit('broadcast', message);
+
+	// Tools.socket.emit('broadcast', message);
+	channelRoom.push('broadcast', d)
 };
 
 Tools.drawAndSend = function (data) {
@@ -202,19 +226,16 @@ function handleMessage(message) {
 	//Check if the message is in the expected format
 	if (message.tool) messageForTool(message);
 	if (message._children) batchCall(handleMessage, message._children);
-	if (!message.tool && !message._children) {
+
+	if ( ! message.tool && !message._children) {
 		console.error("Received a badly formatted message (no tool). ", message);
 	}
 }
 
-//Receive draw instructions from the server
-Tools.socket.on("broadcast", handleMessage);
-Tools.socket.on("reconnect", function onReconnection() {
-	// The server may have been updated.
-	// Just force-reload the page with a random timeout to avoid overloading the server
-	var timeout = Math.random() * 15 * 1000;
-	setTimeout(window.location.reload.bind(window.location, true), timeout);
-});
+//Receive draw instructions from the server toto
+//Tools.socket.on("broadcast", handleMessage);
+channelUser.on("broadcast", handleMessage);
+channelRoom.on("broadcast", handleMessage);
 
 Tools.unreadMessagesCount = 0;
 Tools.newUnreadMessage = function () {
