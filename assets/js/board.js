@@ -177,12 +177,6 @@ Tools.send = function (data, toolName) {
 	d.tool = toolName;
 	Tools.applyHooks(Tools.messageHooks, d);
 
-	var message = {
-		"board": Tools.boardName,
-		"data": d
-	}
-
-	// Tools.socket.emit('broadcast', message);
 	channelRoom.push('broadcast', d)
 };
 

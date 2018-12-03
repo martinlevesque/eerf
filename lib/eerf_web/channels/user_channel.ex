@@ -12,6 +12,10 @@ defmodule EerfWeb.UserChannel do
   end
 
   def handle_in("get-board", %{"board_name" => board_name}, socket) do
+    ttest = Eerf.Rooms.get_room_or_create(board_name)
+    IO.puts "get board.. test "
+    IO.inspect ttest
+
     board_data = %{ "im": "data" }
     broadcast!(socket, "broadcast", %{board_data: board_data})
     {:reply, :ok, socket}

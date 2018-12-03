@@ -7,6 +7,7 @@ defmodule EerfWeb.RoomChannel do
 
   def join("room:" <> private_room_id, params, socket) do
     IO.puts "private room.. = #{private_room_id}"
+    IO.inspect params
     #{:error, %{reason: "unauthorized"}}
     {:ok, socket}
   end
