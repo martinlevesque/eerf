@@ -13,7 +13,6 @@ defmodule EerfWeb.UserChannel do
 
   def handle_in("get-board", %{"board_name" => board_name}, socket) do
     room = Eerf.Rooms.get_room_or_create(board_name)
-    IO.puts "get board.. test "
 
     broadcast!(socket, "recv-initial-board", %{board_data: room.elements})
     {:reply, :ok, socket}

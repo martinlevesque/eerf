@@ -42,7 +42,9 @@ defmodule Eerf.Rooms do
 
     cond do
       room -> room
-      true -> create_room(%{ name: name, nb_connected_users: 0, elements: [] })
+      true ->
+        {:ok, room} = create_room(%{ name: name, nb_connected_users: 0, elements: [] })
+        room
     end
   end
 
