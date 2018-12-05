@@ -44,6 +44,10 @@ Tools.boardName = (function () {
 	return path[path.length - 1];
 })();
 
+if (Tools.boardName === "") {
+	return;
+}
+
 const channelRoom = window.socket.channel(`room:${Tools.boardName}`, {});
 
 channelRoom.join()
