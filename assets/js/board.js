@@ -228,15 +228,12 @@ function handleMessage(message) {
 
 function handleBoard(msg) {
 	if (msg && msg.board_data) {
-		for (const m of msg.board_data) {
-			handleMessage({ _children: msg.board_data});
-		}
+		handleMessage({ _children: msg.board_data});
 	}
 }
 
 //Receive draw instructions from the server toto
 //Tools.socket.on("broadcast", handleMessage);
-channelUser.on("broadcast", handleMessage);
 channelUser.on("recv-initial-board", handleBoard);
 channelRoom.on("broadcast", handleMessage);
 
