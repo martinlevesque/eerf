@@ -13,7 +13,7 @@ defmodule EerfWeb.RoomChannel do
   def join("room:" <> private_room_id, params, socket) do
     IO.puts "private room.. = #{private_room_id}"
     IO.inspect params
-    #{:error, %{reason: "unauthorized"}}
+    
     {:ok, socket}
   end
 
@@ -46,22 +46,18 @@ defmodule EerfWeb.RoomChannel do
   end
 
   def handle_in("broadcast", message, socket) do
-    IO.puts "broadcasted.."
-    IO.inspect message
+    try do
+      broadcast!(socket, "broadcast", message)
 
-    broadcast!(socket, "broadcast", message)
+      # save it in the proper room
+      room_name = get_room_name_from_socket(socket)
 
-    # save it in the proper room
-    room_name = get_room_name_from_socket(socket)
+      room = Eerf.Rooms.get_room_or_create(room_name)
+      Eerf.Rooms.update_room(room, %{elements: update_room_elements(room.elements, message)})
 
-    cond do
-      room_name == nil -> {:reply, {:error, "can't retrieve the name"}, socket}
-      true ->
-        room = Eerf.Rooms.get_room_or_create(room_name)
-        Eerf.Rooms.update_room(room, %{elements: update_room_elements(room.elements, message)})
-        room = Eerf.Rooms.get_room_or_create(room_name)
-
-        {:reply, :ok, socket}
+      {:reply, :ok, socket}
+    rescue
+      x -> {:reply, {:error, "can't handle the msg - #{inspect x}"}, socket}
     end
   end
 end
