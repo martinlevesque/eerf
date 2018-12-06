@@ -1,6 +1,14 @@
 defmodule EerfWeb.Router do
   use EerfWeb, :router
 
+  pipeline :auth do
+    plug Eerf.Auth.Pipeline
+  end
+
+  pipeline :ensure_auth do
+    plug Guardian.Plug.EnsureAuthenticated
+  end
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -14,10 +22,19 @@ defmodule EerfWeb.Router do
   end
 
   scope "/", EerfWeb do
-    pipe_through :browser
+    pipe_through [:browser, :auth]
 
     get "/", HomeController, :index
+    post "/", HomeController, :login
+    post "/logout", HomeController, :logout
+
     get "/at/:id", AtController, :index
+  end
+
+  # Definitely logged in scope
+  scope "/", EerfWeb do
+    pipe_through [:browser, :auth, :ensure_auth]
+    get "/home", HomeController, :home
   end
 
   # Other scopes may use custom stacks.
