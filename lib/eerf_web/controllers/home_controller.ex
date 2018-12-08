@@ -63,7 +63,10 @@ defmodule EerfWeb.HomeController do
   end
 
   def home(conn, _params) do
-    render(conn, "home.html")
+
+    trending_rooms = Rooms.trending(5)
+
+    render(conn, "home.html", trending_rooms: trending_rooms)
   end
 
   defp populate_init_user(conn, _) do

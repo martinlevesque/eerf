@@ -1,0 +1,11 @@
+<%= if length(@rooms) == 0 do %>
+  <p>No room available</p>
+<% end %>
+
+<%= if length(@rooms) > 0 do %>
+  <ul>
+    <%= for room <- @rooms do %>
+      <li><a href="/at/<%= room.name %>"><%= room.name %> (<%= room.nb_connected_users %>)</a></li>
+    <% end %>
+  </ul>
+<% end %>

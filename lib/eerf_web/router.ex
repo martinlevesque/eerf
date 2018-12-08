@@ -32,13 +32,14 @@ defmodule EerfWeb.Router do
 
     post "/logout", HomeController, :logout
 
-    get "/at/:id", AtController, :index
   end
 
   # Definitely logged in scope
   scope "/", EerfWeb do
     pipe_through [:browser, :auth, :ensure_auth]
+
     get "/home", HomeController, :home
+    get "/at/:id", AtController, :index
   end
 
   # Other scopes may use custom stacks.

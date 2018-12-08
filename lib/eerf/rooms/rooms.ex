@@ -21,6 +21,13 @@ defmodule Eerf.Rooms do
     Repo.all(Room)
   end
 
+  def trending(my_limit) do
+    Room
+    |> order_by(desc: :nb_connected_users)
+    |> limit(^my_limit)
+    |> Repo.all
+  end
+
   @doc """
   Gets a single room.
 
