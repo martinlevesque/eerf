@@ -21,6 +21,28 @@ defmodule EerfWeb.HomeController do
     |> login_reply(conn)
   end
 
+  def register(conn, _params) do
+    changeset = Auth.change_user(%User{})
+
+    conn
+      |> render("register.html", changeset: changeset,
+        action: Routes.home_path(conn, :do_register))
+  end
+
+  def do_register(conn, %{"user" => user}) do
+    case Auth.create_user(user) do
+      {:ok, user} ->
+        conn
+        |> put_flash(:success, "User created successfully!")
+        |> redirect(to: "/")
+      {:error, changeset} ->
+        conn
+        |> put_flash(:error, "Could not save the user successfully")
+        |> render("register.html", changeset: changeset,
+          action: Routes.home_path(conn, :do_register), errors: changeset.errors)
+    end
+  end
+
   defp login_reply({:error, error}, conn) do
     conn
     |> put_flash(:error, error)
@@ -37,7 +59,7 @@ defmodule EerfWeb.HomeController do
   def logout(conn, _) do
     conn
     |> Guardian.Plug.sign_out()
-    |> redirect(to: Routes.home_path(conn, :login))
+    |> redirect(to: "/")
   end
 
   def home(conn, _params) do

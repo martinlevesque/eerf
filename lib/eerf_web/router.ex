@@ -25,7 +25,11 @@ defmodule EerfWeb.Router do
     pipe_through [:browser, :auth]
 
     get "/", HomeController, :index
-    post "/", HomeController, :login
+
+    post "/login", HomeController, :login
+    get "/register", HomeController, :register
+    post "/register", HomeController, :do_register
+
     post "/logout", HomeController, :logout
 
     get "/at/:id", AtController, :index
