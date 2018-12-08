@@ -1,19 +1,19 @@
 defmodule EerfWeb.HomeController do
   use EerfWeb, :controller
-  alias EerfWeb.Router.Helpers, as: Routes
 
-  alias Eerf.Auth
-  alias Eerf.Auth.User
-  alias Eerf.Auth.Guardian
+  plug :populate_init_user
 
   def index(conn, _params) do
-    changeset = Auth.change_user(%User{})
-    maybe_user = Guardian.Plug.current_resource(conn)
-
-    conn
-      |> render("index.html", changeset: changeset,
-        maybe_user: maybe_user,
-        action: Routes.home_path(conn, :login))
+    case conn.assigns[:maybe_user] do
+      nil ->
+        conn
+          |> render("index.html", changeset: conn.assigns[:changeset],
+            maybe_user: conn.assigns[:maybe_user],
+            action: Routes.home_path(conn, :login))
+      _ ->
+        conn
+        |> redirect(to: "/home")
+    end
   end
 
   def login(conn, %{"user" => %{"username" => username, "password" => password}}) do
@@ -31,7 +31,7 @@ defmodule EerfWeb.HomeController do
 
   def do_register(conn, %{"user" => user}) do
     case Auth.create_user(user) do
-      {:ok, user} ->
+      {:ok, _} ->
         conn
         |> put_flash(:success, "User created successfully!")
         |> redirect(to: "/")
@@ -53,7 +53,7 @@ defmodule EerfWeb.HomeController do
     conn
     |> put_flash(:success, "Welcome back!")
     |> Guardian.Plug.sign_in(user)
-    |> redirect(to: "/")
+    |> redirect(to: "/home")
   end
 
   def logout(conn, _) do
@@ -64,5 +64,13 @@ defmodule EerfWeb.HomeController do
 
   def home(conn, _params) do
     render(conn, "home.html")
+  end
+
+  defp populate_init_user(conn, _) do
+    {changeset, maybe_user} = check_auth_user(conn)
+
+    conn
+    |> assign(:changeset, changeset)
+    |> assign(:maybe_user, maybe_user)
   end
 end

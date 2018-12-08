@@ -24,68 +24,70 @@
  * @licend
  */
 
-(function eraser() { //Code isolation
-	var Tools = window.Tools;
+if (window.Tools.boardActivated) {
+	(function eraser() { //Code isolation
+		var Tools = window.Tools;
 
-	var erasing = false;
+		var erasing = false;
 
-	function startErasing(x, y, evt) {
-		//Prevent the press from being interpreted by the browser
-		evt.preventDefault();
-		erasing = true;
-		erase(x, y, evt);
-	}
-
-	var msg = {
-		"type": "delete",
-		"id": ""
-	};
-	function erase(x, y, evt) {
-		// evt.target should be the element over which the mouse is...
-		var target = evt.target;
-		if (evt.type === "touchmove") {
-			// ... the target of touchmove events is the element that was initially touched,
-			// not the one **currently** being touched
-			var touch = evt.touches[0];
-			target = document.elementFromPoint(touch.clientX, touch.clientY);
+		function startErasing(x, y, evt) {
+			//Prevent the press from being interpreted by the browser
+			evt.preventDefault();
+			erasing = true;
+			erase(x, y, evt);
 		}
-		if (erasing && target !== Tools.svg) {
-			msg.id = target.id;
-			Tools.drawAndSend(msg);
+
+		var msg = {
+			"type": "delete",
+			"id": ""
+		};
+		function erase(x, y, evt) {
+			// evt.target should be the element over which the mouse is...
+			var target = evt.target;
+			if (evt.type === "touchmove") {
+				// ... the target of touchmove events is the element that was initially touched,
+				// not the one **currently** being touched
+				var touch = evt.touches[0];
+				target = document.elementFromPoint(touch.clientX, touch.clientY);
+			}
+			if (erasing && target !== Tools.svg) {
+				msg.id = target.id;
+				Tools.drawAndSend(msg);
+			}
 		}
-	}
 
-	function stopErasing() {
-		erasing = false;
-	}
-
-	function draw(data) {
-		var elem;
-		switch (data.type) {
-			//TODO: add the ability to erase only some points in a line
-			case "delete":
-				elem = svg.getElementById(data.id);
-				if (elem === null) console.error("Eraser: Tried to delete an element that does not exist.");
-				else svg.removeChild(elem);
-				break;
-			default:
-				console.error("Eraser: 'delete' instruction with unknown type. ", data);
-				break;
+		function stopErasing() {
+			erasing = false;
 		}
-	}
 
-	var svg = Tools.svg;
+		function draw(data) {
+			var elem;
+			switch (data.type) {
+				//TODO: add the ability to erase only some points in a line
+				case "delete":
+					elem = svg.getElementById(data.id);
+					if (elem === null) console.error("Eraser: Tried to delete an element that does not exist.");
+					else svg.removeChild(elem);
+					break;
+				default:
+					console.error("Eraser: 'delete' instruction with unknown type. ", data);
+					break;
+			}
+		}
 
-	Tools.add({ //The new tool
-		"name": "Eraser",
-		"icon": "",
-		"listeners": {
-			"press": startErasing,
-			"move": erase,
-			"release": stopErasing,
-		},
-		"draw": draw,
-		"mouseCursor": "crosshair",
-	});
+		var svg = Tools.svg;
 
-})(); //End of code isolation
+		Tools.add({ //The new tool
+			"name": "Eraser",
+			"icon": "",
+			"listeners": {
+				"press": startErasing,
+				"move": erase,
+				"release": stopErasing,
+			},
+			"draw": draw,
+			"mouseCursor": "crosshair",
+		});
+
+	})(); //End of code isolation
+}

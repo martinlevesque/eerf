@@ -1,7 +1,7 @@
 /**
  *                        WHITEBOPHIR
  *********************************************************
- * @licstart  The following is the entire license notice for the 
+ * @licstart  The following is the entire license notice for the
  *  JavaScript code in this page.
  *
  * Copyright (C) 2013  Ophir LOJKINE
@@ -24,35 +24,37 @@
  * @licend
  */
 
-(function () { //Code isolation
+if (window.Tools.boardActivated) {
+	(function () { //Code isolation
 
-	var orig = { x: 0, y: 0 };
-	var pressed = false;
-	function press(x, y, evt, isTouchEvent) {
-		if (!isTouchEvent) {
-			pressed = true;
-			orig.x = scrollX + evt.clientX;
-			orig.y = scrollY + evt.clientY;
+		var orig = { x: 0, y: 0 };
+		var pressed = false;
+		function press(x, y, evt, isTouchEvent) {
+			if (!isTouchEvent) {
+				pressed = true;
+				orig.x = scrollX + evt.clientX;
+				orig.y = scrollY + evt.clientY;
+			}
 		}
-	}
-	function move(x, y, evt, isTouchEvent) {
-		if (pressed && !isTouchEvent) { //Let the browser handle touch to scroll
-			window.scrollTo(orig.x - evt.clientX, orig.y - evt.clientY);
+		function move(x, y, evt, isTouchEvent) {
+			if (pressed && !isTouchEvent) { //Let the browser handle touch to scroll
+				window.scrollTo(orig.x - evt.clientX, orig.y - evt.clientY);
+			}
 		}
-	}
-	function release() {
-		pressed = false;
-	}
+		function release() {
+			pressed = false;
+		}
 
-	Tools.add({ //The new tool
-		"name": "Hand",
-		"icon": "✋",
-		"listeners": {
-			"press": press,
-			"move": move,
-			"release": release
-		},
-		"mouseCursor": "move"
-	});
+		Tools.add({ //The new tool
+			"name": "Hand",
+			"icon": "✋",
+			"listeners": {
+				"press": press,
+				"move": move,
+				"release": release
+			},
+			"mouseCursor": "move"
+		});
 
-})(); //End of code isolation
+	})(); //End of code isolation
+}

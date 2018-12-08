@@ -31,8 +31,12 @@ Minitpl = (function () {
 		if (!elem) {
 			throw "Invalid element!";
 		}
-		this.parent = this.elem.parentNode;
-		this.parent.removeChild(this.elem);
+
+		if (this.elem) {
+			this.parent = this.elem.parentNode;
+			this.parent.removeChild(this.elem);
+		}
+
 	}
 
 	function transform(element, transformer) {

@@ -1,5 +1,6 @@
 
 <h2>EERF Home</h2>
+
 <%= if @maybe_user == nil do %>
   <%= form_for @changeset, @action, fn f -> %>
     <div class="form-group">
@@ -22,5 +23,7 @@
   <% end %>
 <% else %>
   <h1>Hello <%= @maybe_user.username%>!</h1>
-  <span><%= link "Logout", to: Routes.home_path(@conn, :logout), method: :post%></span>
+  <span>
+    <%= link "Logout", to: Routes.home_path(@conn, :logout), method: :post%>
+  </span>
 <% end %>

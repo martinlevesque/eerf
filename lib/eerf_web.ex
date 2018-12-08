@@ -24,6 +24,18 @@ defmodule EerfWeb do
       import Plug.Conn
       import EerfWeb.Gettext
       alias EerfWeb.Router.Helpers, as: Routes
+
+      alias Eerf.Auth.Guardian
+      alias Eerf.Auth
+      alias Eerf.Auth.User
+
+      def check_auth_user(conn) do
+        changeset = Auth.change_user(%User{})
+
+        maybe_user = Guardian.Plug.current_resource(conn)
+
+        {changeset, maybe_user}
+      end
     end
   end
 
