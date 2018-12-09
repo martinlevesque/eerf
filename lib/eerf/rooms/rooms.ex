@@ -55,6 +55,13 @@ defmodule Eerf.Rooms do
     end
   end
 
+  def get_room_by_name(name) do
+     res = Repo.get_by(Room, name: name)
+     IO.inspect res
+
+     res
+  end
+
   @doc """
   Creates a room.
 

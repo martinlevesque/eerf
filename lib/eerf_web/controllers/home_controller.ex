@@ -16,6 +16,8 @@ defmodule EerfWeb.HomeController do
     end
   end
 
+  # TODO refactor with user controller
+
   def login(conn, %{"user" => %{"username" => username, "password" => password}}) do
     Auth.authenticate_user(username, password)
     |> login_reply(conn)
@@ -68,6 +70,27 @@ defmodule EerfWeb.HomeController do
 
     render(conn, "home.html", trending_rooms: trending_rooms)
   end
+
+  def find_room(conn, params) do
+
+    # TODO refactor with rooms controller
+
+    IO.puts "params === #{inspect params}"
+    room_name = params["room_name"]
+    IO.inspect room_name
+
+    case Rooms.get_room_by_name(room_name) do
+      nil ->
+        changeset = Rooms.change_room(%Room{})
+
+        conn
+        |> render("new_room.html", changeset: changeset)
+      _ ->
+        conn
+        |> redirect(to: "/at/#{room_name}")
+    end
+  end
+
 
   defp populate_init_user(conn, _) do
     {changeset, maybe_user} = check_auth_user(conn)

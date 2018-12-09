@@ -5,13 +5,10 @@
 
 <p>Welcome to <b>EERF</b>. You can go to an existing room
 or create a new one using the form below.
-</p><p>
-To collaborate on a drawing in real time with someone,
-just send them its URL.
 </p>
 
-<form action="boards" method="GET">
-	<input type="text" id="board" name="board" placeholder="Name of the room..."/>
+<form action="find_room" method="GET">
+	<input type="text" id="room" name="room_name" placeholder="Name of the room..."/>
 	<input type="submit" value="Go">
 </form>
 

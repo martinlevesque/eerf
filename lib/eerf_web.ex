@@ -30,6 +30,7 @@ defmodule EerfWeb do
       alias Eerf.Auth.User
 
       alias Eerf.Rooms
+      alias Eerf.Rooms.Room
 
       def check_auth_user(conn) do
         changeset = Auth.change_user(%User{})

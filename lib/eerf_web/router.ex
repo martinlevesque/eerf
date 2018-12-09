@@ -31,7 +31,6 @@ defmodule EerfWeb.Router do
     post "/register", HomeController, :do_register
 
     post "/logout", HomeController, :logout
-
   end
 
   # Definitely logged in scope
@@ -40,6 +39,7 @@ defmodule EerfWeb.Router do
 
     get "/home", HomeController, :home
     get "/at/:id", AtController, :index
+    get "find_room", HomeController, :find_room
   end
 
   # Other scopes may use custom stacks.
