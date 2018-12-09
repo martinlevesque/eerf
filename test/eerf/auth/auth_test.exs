@@ -21,7 +21,10 @@ defmodule Eerf.AuthTest do
 
     test "list_users/0 returns all users" do
       user = user_fixture()
-      assert Auth.list_users() == [user]
+
+      found_user = Enum.find(Auth.list_users(), fn user -> user.email == "some email" end)
+
+      assert found_user == user
     end
 
     test "get_user!/1 returns the user with given id" do
