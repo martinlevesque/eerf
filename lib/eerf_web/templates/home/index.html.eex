@@ -24,6 +24,6 @@
 <% else %>
   <h1>Hello <%= @maybe_user.username%>!</h1>
   <span>
-    <%= link "Logout", to: Routes.home_path(@conn, :logout), method: :post%>
+    <%= link "Logout", to: Routes.user_path(@conn, :logout), method: :post%>
   </span>
 <% end %>

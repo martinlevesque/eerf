@@ -32,7 +32,8 @@ defmodule Eerf.AuthTest do
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Auth.create_user(@valid_attrs)
       assert user.email == "some email"
-      assert user.password == "some password"
+      assert user.password != "some password" # hash
+      assert user.password != ""              # hash
       assert user.username == "some username"
     end
 
@@ -44,7 +45,8 @@ defmodule Eerf.AuthTest do
       user = user_fixture()
       assert {:ok, %User{} = user} = Auth.update_user(user, @update_attrs)
       assert user.email == "some updated email"
-      assert user.password == "some updated password"
+      assert user.password != "some updated password" # hash
+      assert user.password != ""                      # hash
       assert user.username == "some updated username"
     end
 

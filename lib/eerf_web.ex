@@ -39,6 +39,14 @@ defmodule EerfWeb do
 
         {changeset, maybe_user}
       end
+
+      def populate_init_user(conn, _) do
+        {changeset, maybe_user} = check_auth_user(conn)
+
+        conn
+        |> assign(:changeset, changeset)
+        |> assign(:maybe_user, maybe_user)
+      end
     end
   end
 

@@ -25,12 +25,16 @@ defmodule EerfWeb.Router do
     pipe_through [:browser, :auth]
 
     get "/", HomeController, :index
+  end
 
-    post "/login", HomeController, :login
-    get "/register", HomeController, :register
-    post "/register", HomeController, :do_register
+  scope "/user/", EerfWeb do
+    pipe_through [:browser, :auth]
 
-    post "/logout", HomeController, :logout
+    post "/login", UserController, :login
+    get "/register", UserController, :register
+    post "/register", UserController, :do_register
+
+    post "/logout", UserController, :logout
   end
 
   # Definitely logged in scope
@@ -39,7 +43,7 @@ defmodule EerfWeb.Router do
 
     get "/home", HomeController, :home
     get "/at/:id", AtController, :index
-    get "find_room", HomeController, :find_room
+    get "/find_room", HomeController, :find_room
   end
 
   # Other scopes may use custom stacks.

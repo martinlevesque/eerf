@@ -1,6 +1,6 @@
 
   <div class="">
-    <%= link "Logout", to: Routes.home_path(@conn, :logout), method: :post%>
+    <%= link "Logout", to: Routes.user_path(@conn, :logout), method: :post%>
   </div>
 
 <p>Welcome to <b>EERF</b>. You can go to an existing room
