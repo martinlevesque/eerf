@@ -23,22 +23,22 @@ defmodule EerfWeb.HomeController do
   end
 
   def find_room(conn, params) do
-
-    # TODO refactor with rooms controller
-
-    IO.puts "params === #{inspect params}"
     room_name = params["room_name"]
-    IO.inspect room_name
 
     case Rooms.get_room_by_name(room_name) do
       nil ->
-        changeset = Rooms.change_room(%Room{})
+        changeset = Rooms.change_room(%Room{ name: room_name })
 
         conn
-        |> render("new_room.html", changeset: changeset)
+        |> render("edit_room.html", changeset: changeset, room_name: room_name,
+          action: Routes.home_path(conn, :save_room))
       _ ->
         conn
         |> redirect(to: "/at/#{room_name}")
     end
+  end
+
+  def save_room(conn, params) do
+
   end
 end

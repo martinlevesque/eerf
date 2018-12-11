@@ -44,6 +44,7 @@ defmodule EerfWeb.Router do
     get "/home", HomeController, :home
     get "/at/:id", AtController, :index
     get "/find_room", HomeController, :find_room
+    get "/save_room", HomeController, :save_room
   end
 
   # Other scopes may use custom stacks.
