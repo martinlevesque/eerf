@@ -30,15 +30,24 @@ defmodule EerfWeb.HomeController do
         changeset = Rooms.change_room(%Room{ name: room_name })
 
         conn
-        |> render("edit_room.html", changeset: changeset, room_name: room_name,
-          action: Routes.home_path(conn, :save_room))
+        |> render("edit_room.html", changeset: changeset,
+          action: Routes.home_path(conn, :create_room))
       _ ->
         conn
         |> redirect(to: "/at/#{room_name}")
     end
   end
 
-  def save_room(conn, params) do
-
+  def create_room(conn, params) do
+    case Rooms.create_room(params["room"]) do
+      {:ok, room} ->
+        conn
+        |> redirect(to: "/at/#{room.name}")
+      {:error, changeset} ->
+        conn
+        |> put_flash(:error, "Could not save the room successfully")
+        |> render("edit_room.html", changeset: changeset,
+          action: Routes.home_path(conn, :create_room))
+    end
   end
 end

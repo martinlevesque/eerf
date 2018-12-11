@@ -1,5 +1,5 @@
 
-<h2>Room</h2>
+<h2>Room Details of <%= @changeset.data.name %></h2>
 
 <%= form_for @changeset, @action, fn f -> %>
   <div class="form-group">
