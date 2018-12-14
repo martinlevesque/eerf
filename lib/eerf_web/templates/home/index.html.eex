@@ -15,7 +15,7 @@
       <%= error_tag f, :password %>
     </div>
 
-    <p><a href="/register">Don't have an account? Register now.</a></p>
+    <p><a href="/user/register">Don't have an account? Register now.</a></p>
 
     <div class="form-group">
       <%= submit "Submit", class: "btn btn-primary" %>
