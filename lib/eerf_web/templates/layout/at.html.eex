@@ -8,7 +8,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <link rel="stylesheet" href="/css/at.css"/>
-	<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/socket.io.js") %>">
 	</script>
 	<meta name="description" content="An free online whiteboard for realtime collaboration. Draw, write text and sketch new ideas together."/>
 	<meta name="keywords" content="whiteboard,collaborative,online,draw,paint,shared,realtime,wbo,whitebophir"/>

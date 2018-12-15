@@ -11,7 +11,8 @@ use Mix.Config
 # before starting your production server.
 config :eerf, EerfWeb.Endpoint,
   http: [:inet6, port: System.get_env("PORT") || 4000],
-  url: [host: "eerf.us.openode.io", port: 80]#,
+  check_origin: ["//localhost", "//eerf.fr.openode.io"],
+  url: [host: "eerf.fr.openode.io", port: 80]#,
   #cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
