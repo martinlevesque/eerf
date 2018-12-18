@@ -4,3 +4,9 @@ node_js:
 
 install:
   - npm install -g openode
+
+deploy:
+  provider: script
+  script: bash scripts/deploy-ci.sh
+  on:
+    branch: master
