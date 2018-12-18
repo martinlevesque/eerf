@@ -1,3 +1,3 @@
 #!/bin/sh
 
-openode status
+openode deploy -t ${OPENODE_TOKEN} -s eerf
