@@ -1,5 +1,6 @@
 defmodule EerfWeb.RoomChannel do
   use Phoenix.Channel
+  alias EerfWeb.Presence
 
   defp get_room_name_from_socket(socket) do
     try do
@@ -10,11 +11,51 @@ defmodule EerfWeb.RoomChannel do
     end
   end
 
+  defp get_room_from_socket(socket) do
+    room_name = get_room_name_from_socket(socket)
+
+    Eerf.Rooms.get_room_or_create(room_name)
+  end
+
   def join("room:" <> private_room_id, params, socket) do
     IO.puts "private room.. = #{private_room_id}"
-    IO.inspect params
-    
+
+    send(self(), :after_join)
+
     {:ok, socket}
+  end
+
+  defp update_nb_users(socket) do
+    nb_users = length(Map.keys(Presence.list(socket)))
+
+    room = get_room_from_socket(socket)
+    Eerf.Rooms.update_room(room, %{nb_connected_users: nb_users})
+  end
+
+  defp leave_channel(socket) do
+     Presence.untrack(socket, socket.assigns.user_id)
+     update_nb_users(socket)
+  end
+
+  def leave(socket, user_id) do
+  # handle user leaving
+    IO.puts "leaveee"
+    IO.inspect socket
+    IO.inspect user_id
+    leave_channel(socket)
+
+    socket
+  end
+
+  def terminate(reason, socket) do
+    IO.puts "> leave #{inspect reason}"
+
+    leave_channel(socket)
+
+    IO.puts "presence hand after join"
+    IO.inspect Presence.list(socket)
+
+    :ok
   end
 
   defp update_room_elements(elements, new_elem) do
@@ -45,14 +86,27 @@ defmodule EerfWeb.RoomChannel do
     end
   end
 
+  def handle_info(:after_join, socket) do
+    push(socket, "presence_state", Presence.list(socket))
+
+    {:ok, _} = Presence.track(socket, socket.assigns.user_id, %{
+      online_at: inspect(System.system_time(:second))
+    })
+
+    IO.puts "presence hand after join"
+    IO.inspect Presence.list(socket)
+
+    update_nb_users(socket)
+
+    {:noreply, socket}
+  end
+
   def handle_in("broadcast", message, socket) do
     try do
       broadcast!(socket, "broadcast", message)
 
       # save it in the proper room
-      room_name = get_room_name_from_socket(socket)
-
-      room = Eerf.Rooms.get_room_or_create(room_name)
+      room = get_room_from_socket(socket)
       Eerf.Rooms.update_room(room, %{elements: update_room_elements(room.elements, message)})
 
       {:reply, :ok, socket}

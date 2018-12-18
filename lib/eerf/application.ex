@@ -11,9 +11,8 @@ defmodule Eerf.Application do
       # Start the Ecto repository
       Eerf.Repo,
       # Start the endpoint when the application starts
-      EerfWeb.Endpoint
-      # Starts a worker by calling: Eerf.Worker.start_link(arg)
-      # {Eerf.Worker, arg},
+      EerfWeb.Endpoint,
+      EerfWeb.Presence
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

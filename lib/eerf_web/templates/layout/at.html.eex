@@ -44,10 +44,12 @@
 </div>
 
 
+<script>window.userId = "<%= assigns[:maybe_user].id %>";</script>
 
 <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
 <!--<script type="text/javascript" src="/js/path-data-polyfill.js"></script>-->
 <script type="text/javascript" src="/js/canvascolor/canvascolor.min.js"></script>
+
 
 </body>
 </html>
