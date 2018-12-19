@@ -248,12 +248,12 @@ function mainBoard() {
 
 	Tools.unreadMessagesCount = 0;
 	Tools.newUnreadMessage = function () {
-		document.title = "(" + (++Tools.unreadMessagesCount) + ") WBO";
+		document.title = "(" + (++Tools.unreadMessagesCount) + `) ${Tools.boardName} - Eerf`;
 	};
 
 	window.addEventListener("focus", function () {
 		Tools.unreadMessagesCount = 0;
-		document.title = "WBO";
+		document.title = `${Tools.boardName} - Eerf`;
 	});
 
 	//List of hook functions that will be applied to messages before sending or drawing them

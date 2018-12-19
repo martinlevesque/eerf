@@ -38,22 +38,13 @@ defmodule EerfWeb.RoomChannel do
   end
 
   def leave(socket, user_id) do
-  # handle user leaving
-    IO.puts "leaveee"
-    IO.inspect socket
-    IO.inspect user_id
     leave_channel(socket)
 
     socket
   end
 
   def terminate(reason, socket) do
-    IO.puts "> leave #{inspect reason}"
-
     leave_channel(socket)
-
-    IO.puts "presence hand after join"
-    IO.inspect Presence.list(socket)
 
     :ok
   end
@@ -92,9 +83,6 @@ defmodule EerfWeb.RoomChannel do
     {:ok, _} = Presence.track(socket, socket.assigns.user_id, %{
       online_at: inspect(System.system_time(:second))
     })
-
-    IO.puts "presence hand after join"
-    IO.inspect Presence.list(socket)
 
     update_nb_users(socket)
 

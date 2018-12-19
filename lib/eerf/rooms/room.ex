@@ -16,6 +16,7 @@ defmodule Eerf.Rooms.Room do
 
     room
     |> cast(attrs, [:name, :nb_connected_users, :elements])
+    |> unique_constraint(:name)
     |> validate_required([:name, :nb_connected_users, :elements])
   end
 end
