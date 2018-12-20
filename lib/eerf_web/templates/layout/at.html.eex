@@ -7,7 +7,7 @@
 	<link rel="icon" type="image/png" href="favicon.ico" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <link rel="stylesheet" href="/css/at.css"/>
+  <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/at.css") %>"/>
 	</script>
 	<meta name="description" content="An free online whiteboard for realtime collaboration. Draw, write text and sketch new ideas together."/>
 	<meta name="keywords" content="whiteboard,collaborative,online,draw,paint,shared,realtime,wbo,whitebophir"/>
@@ -31,7 +31,9 @@
 	<div id="menuItems">
 		<h3 data-translation="waiting">Tools</h3>
 		<ul id="tools">
-			<li class="tool"><span class="tool-icon"></span><span class="tool-name" data-translation="waiting">Tool template</span></li>
+			<li class="tool"><span class="item-icon"></span>
+				<span class="item-name" data-translation="waiting">Tool template</span>
+			</li>
 		</ul>
 
 		<h3>Configuration</h3>
@@ -40,6 +42,26 @@
 		<br/>
 		<label for="chooseSize" data-translation="waiting">Size</label>
 		<input type="range" id="chooseSize" value="10" min="1" max="50" step="1" />
+
+		<h3 id="menuUsersTitle">Users </h3>
+
+		<ul id="users" class="listUsers">
+			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
+			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
+			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
+			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
+			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
+			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
+			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
+			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
+			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
+			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
+			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
+			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
+			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
+			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
+
+		</ul>
 	</div>
 </div>
 

@@ -1,4 +1,6 @@
-html, body, svg {
+
+
+html, body, svgg {
 	padding:0;
 	margin:0;
 }
@@ -20,6 +22,8 @@ html, body, svg {
 	cursor:default;
 }
 
+
+
 #menu.closed {
 	border-radius:3px;
 	left:10px;
@@ -35,6 +39,7 @@ html, body, svg {
 	font-size: .9vw;
 }
 
+
 #menu h2{ /*Menu title ("Menu")*/
 	font-size:4vh;
 	text-align: center;
@@ -45,7 +50,7 @@ html, body, svg {
 	margin:0;
 }
 
-#menu h3 { /*Section titles ("tools", "configuration")*/
+#menu h3 {
 	font-size:1vw;
 }
 
@@ -71,7 +76,7 @@ html, body, svg {
 	transition-duration:0.5s;
 }
 
-#menu li.curTool {
+#menu li.curItem {
 	box-shadow: 0 0 2px white;
 	background-color:rgb(255, 66, 66);
 	text-shadow: 0px 0px 3px white;
@@ -79,29 +84,35 @@ html, body, svg {
 	color: black;
 }
 
-#menu .tool-icon {
+#menu .item-icon {
 	text-align:center;
 	font-size:2.5vh;
 	padding:.1vw;
 	width:1.5vw;
 	display: inline-block;
 }
-#menu .tool-name {
+#menu .item-name {
 	margin-left: .5vw;
 	font-size:2.5vh;
+}
+
+#menu .listUsers {
+	overflow-x: auto;
+  overflow-y: auto;
+  white-space: nowrap;
 }
 
 @media (max-width: 600px) {
     #menu {
         font-size:1vw;
     }
-    #menu .tool-name {
+    #menu .item-name {
         display: none;
     }
-    #menu .tool-icon {
+    #menu .item-icon {
     	width:100%;
-		font-size:5vw;
-		padding:0;
+			font-size:5vw;
+			padding:0;
     }
     #menu h2 {
         white-space: nowrap;
@@ -120,7 +131,6 @@ html, body, svg {
     	margin:0;
     }
 }
-
 
 input {
 	font-size:16px;

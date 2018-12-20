@@ -84,16 +84,16 @@ function mainBoard() {
 			return this.template.add(function (elem) {
 				elem.addEventListener("click", callback);
 				elem.id = "toolID-" + toolName;
-				elem.getElementsByClassName("tool-name")[0].textContent = toolName;
-				elem.getElementsByClassName("tool-icon")[0].textContent = toolIcon;
+				elem.getElementsByClassName("item-name")[0].textContent = toolName;
+				elem.getElementsByClassName("item-icon")[0].textContent = toolIcon;
 				Tools.i18n.translateDOM();
 			});
 		},
 		changeTool: function (oldToolName, newToolName) {
 			var oldTool = document.getElementById("toolID-" + oldToolName);
 			var newTool = document.getElementById("toolID-" + newToolName);
-			if (oldTool) oldTool.classList.remove("curTool");
-			if (newTool) newTool.classList.add("curTool");
+			if (oldTool) oldTool.classList.remove("curItem");
+			if (newTool) newTool.classList.add("curItem");
 		},
 		addStylesheet: function (href) {
 			//Adds a css stylesheet to the html or svg document
