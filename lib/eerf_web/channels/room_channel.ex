@@ -1,6 +1,7 @@
 defmodule EerfWeb.RoomChannel do
   use Phoenix.Channel
   alias EerfWeb.Presence
+  alias Eerf.Auth
 
   defp get_room_name_from_socket(socket) do
     try do
@@ -25,16 +26,37 @@ defmodule EerfWeb.RoomChannel do
     {:ok, socket}
   end
 
-  defp update_nb_users(socket) do
+  defp presence_users_to_short_list(socket) do
+     users = Presence.list(socket)
+
+     Enum.map(Map.keys(users), fn uid ->
+       first_meta = List.first(users[uid][:metas])
+
+       case first_meta do
+         nil -> nil
+         _ -> %{ user_id: first_meta[:user_id], username: first_meta[:username] }
+       end
+     end)
+     |> Enum.filter(fn item -> item end)
+  end
+
+  defp update_users(socket) do
     nb_users = length(Map.keys(Presence.list(socket)))
 
     room = get_room_from_socket(socket)
     Eerf.Rooms.update_room(room, %{nb_connected_users: nb_users})
+
+    users_list = presence_users_to_short_list(socket)
+
+    broadcast!(socket, "broadcast", %{
+      type: "users_list",
+      users_list: users_list
+      })
   end
 
   defp leave_channel(socket) do
      Presence.untrack(socket, socket.assigns.user_id)
-     update_nb_users(socket)
+     update_users(socket)
   end
 
   def leave(socket, user_id) do
@@ -80,11 +102,15 @@ defmodule EerfWeb.RoomChannel do
   def handle_info(:after_join, socket) do
     push(socket, "presence_state", Presence.list(socket))
 
-    {:ok, _} = Presence.track(socket, socket.assigns.user_id, %{
-      online_at: inspect(System.system_time(:second))
+    user = Auth.get_user!(socket.assigns.user_id)
+
+    {:ok, _} = Presence.track(socket, user.id, %{
+      online_at: inspect(System.system_time(:second)),
+      user_id: user.id,
+      username: user.username
     })
 
-    update_nb_users(socket)
+    update_users(socket)
 
     {:noreply, socket}
   end

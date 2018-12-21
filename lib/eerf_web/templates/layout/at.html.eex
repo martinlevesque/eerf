@@ -46,20 +46,9 @@
 		<h3 id="menuUsersTitle">Users </h3>
 
 		<ul id="users" class="listUsers">
-			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
-			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
-			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
-			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
-			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
-			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
-			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
-			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
-			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
-			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
-			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
-			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
-			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
-			<li><span class="item-name">Tool sdfsdfas fasdf asdf asdf asdf</span></li>
+			<li class="user">
+				<span class="item-name">Templ</span>
+			</li>
 
 		</ul>
 	</div>

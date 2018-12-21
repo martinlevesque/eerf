@@ -77,6 +77,7 @@ function mainBoard() {
 
 	Tools.HTML = {
 		template: new Minitpl("#tools > .tool"),
+		templateListUsers: new Minitpl("#users > .user"),
 		addTool: function (toolName, toolIcon) {
 			var callback = function () {
 				Tools.change(toolName);
@@ -89,6 +90,27 @@ function mainBoard() {
 				Tools.i18n.translateDOM();
 			});
 		},
+
+		addUser: function (userId, username) {
+			var callback = function () {
+				// Tools.change(toolName);
+			};
+			return this.templateListUsers.add(function (elem) {
+				elem.addEventListener("click", callback);
+				elem.id = "userID-" + userId;
+				elem.getElementsByClassName("item-name")[0].textContent = username;
+			});
+		},
+
+		refreshUsersList: function(usersList) {
+			const listUsersElem = document.querySelector("#users")
+			listUsersElem.innerHTML = ""
+
+			for (const user of usersList) {
+				Tools.HTML.addUser(user.user_id, user.username)
+			}
+		},
+
 		changeTool: function (oldToolName, newToolName) {
 			var oldTool = document.getElementById("toolID-" + oldToolName);
 			var newTool = document.getElementById("toolID-" + newToolName);
@@ -229,6 +251,13 @@ function mainBoard() {
 		//Check if the message is in the expected format
 		if (message.tool) messageForTool(message);
 		if (message._children) batchCall(handleMessage, message._children);
+
+		switch (message.type) {
+			case "users_list":
+				Tools.HTML.refreshUsersList(message.users_list);
+				return;
+				break;
+		}
 
 		if ( ! message.tool && !message._children) {
 			console.error("Received a badly formatted message (no tool). ", message);

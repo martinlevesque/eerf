@@ -16,7 +16,7 @@ defmodule Eerf.Auth do
   end
 
   defp check_password(nil, _), do: {:error, "Incorrect username or password"}
-  
+
   defp check_password(user, plain_text_password) do
     case Bcrypt.checkpw(plain_text_password, user.password) do
       true -> {:ok, user}
