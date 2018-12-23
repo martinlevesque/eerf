@@ -27,6 +27,7 @@ import "./tools/hand/hand"
 import "./tools/line/line"
 import "./tools/rect/rect"
 import "./tools/text/text"
+import "./tools/restricted_space/restricted_space"
 
 //import Pencil from "./tools/pencil/pencil"
 

@@ -1,4 +1,5 @@
-- view list of connected users
+- view list of connected users [DONE]
 - allow increase-decrease menu bar
-- create a restricted space (with a name) -> room option (allow restricted space)
+- Restricted space (with a name)
 - restricted space should not allow anybody to draw
+- room option (allow restricted space)
