@@ -2,6 +2,7 @@ defmodule EerfWeb.RoomChannel do
   use Phoenix.Channel
   alias EerfWeb.Presence
   alias Eerf.Auth
+  alias Eerf.RestrictedSpaces
 
   defp get_room_name_from_socket(socket) do
     try do
@@ -115,13 +116,39 @@ defmodule EerfWeb.RoomChannel do
     {:noreply, socket}
   end
 
+  defp handle_restricted_space(message, socket) do
+    IO.puts "socket info = #{inspect socket}"
+    broadcast!(socket, "broadcast", message)
+
+    room = get_room_from_socket(socket)
+
+    restricted_space = %{
+      "user_id": socket.assigns.user_id,
+      "room_id": room.id,
+      details: message
+    }
+
+    Eerf.RestrictedSpaces.create_restricted_space(restricted_space)
+  end
+
+  defp handle_any_message(message, socket) do
+    IO.puts "message -> #{inspect message}"
+
+    # save it in the proper room
+    room = get_room_from_socket(socket)
+
+    broadcast!(socket, "broadcast", message)
+
+    Eerf.Rooms.update_room(room, %{elements: update_room_elements(room.elements, message)})
+  end
+
   def handle_in("broadcast", message, socket) do
     try do
-      broadcast!(socket, "broadcast", message)
 
-      # save it in the proper room
-      room = get_room_from_socket(socket)
-      Eerf.Rooms.update_room(room, %{elements: update_room_elements(room.elements, message)})
+      case message["tool"] do
+        "Restricted Space" -> handle_restricted_space(message, socket)
+        _ -> handle_any_message(message, socket)
+      end
 
       {:reply, :ok, socket}
     rescue
