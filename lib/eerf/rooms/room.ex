@@ -8,8 +8,6 @@ defmodule Eerf.Rooms.Room do
     field :name, :string
     field :nb_connected_users, :integer, default: 0
 
-    has_many :restricted_spaces, Eerf.RestrictedSpaces.RestrictedSpace
-
     timestamps()
   end
 
