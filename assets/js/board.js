@@ -185,15 +185,11 @@ function mainBoard() {
 	};
 
 	Tools.drawAndSend = function (data) {
-		console.log('draw and send..')
-		console.log(data)
-
 		channelRoom.push('validate-element', data)
-
-		channelRoom.on(`element-${data.id}-valid`, function(msg) {
-			Tools.curTool.draw(data, true);
-			Tools.send(data);
-		});
+			.receive('ok', function(msgId, msgData) {
+				Tools.curTool.draw(data, true);
+				Tools.send(data);
+			})
 	};
 
 	//Object containing the messages that have been received before the corresponding tool

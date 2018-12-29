@@ -72,7 +72,6 @@ defmodule EerfWeb.RoomChannel do
   end
 
   defp update_room_elements(elements, new_elem) do
-
     has_elem_with_update_type =
       Enum.any?(elements, fn x -> x["id"] == new_elem["id"] && x["type"] == "update" end)
 
@@ -116,18 +115,45 @@ defmodule EerfWeb.RoomChannel do
   end
 
   defp handle_any_message(message, socket) do
-    IO.puts "message -> #{inspect message}"
-
     # save it in the proper room
     room = get_room_from_socket(socket)
 
     broadcast!(socket, "broadcast", message)
 
+
+
     Eerf.Rooms.update_room(room, %{elements: update_room_elements(room.elements, message)})
+  end
+
+  defp is_element_valid?("Restricted Space", message, socket) do
+    room = get_room_from_socket(socket)
+    # TODO
+
+    false
+  end
+
+  defp is_element_valid?(tool, message, socket) do
+    true
+  end
+
+  def handle_in("validate-element", message, socket) do
+    try do
+      status_result =
+        case is_element_valid?(message["tool"], message, socket) do
+          true -> :ok
+          false -> :nok
+        end
+
+      {:reply, status_result, socket}
+    rescue
+      x -> {:reply, {:error, "can't handle the msg - #{inspect x}"}, socket}
+    end
   end
 
   def handle_in("broadcast", message, socket) do
     try do
+      # make sure to save the user id
+      message = Map.put(message, "user_id", socket.assigns.user_id)
       handle_any_message(message, socket)
 
       {:reply, :ok, socket}
