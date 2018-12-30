@@ -62,6 +62,35 @@ defmodule Eerf.Rooms do
      res
   end
 
+  def update_elements(room, new_elem) do
+    elements = room.elements
+
+    has_elem_with_update_type =
+      Enum.any?(elements, fn x -> x["id"] == new_elem["id"] && x["type"] == "update" end)
+
+    cond do
+      # DELETE
+      new_elem["type"] == "delete" ->
+        Enum.filter(elements, fn x ->
+          new_elem["id"] != x["id"] && new_elem["id"] != x["parent"]
+        end)
+      # Update type, doesn't exist
+      new_elem["type"] == "update" && ! has_elem_with_update_type ->
+        elements ++ [new_elem]
+      # Update type, exists
+      new_elem["type"] == "update" ->
+        Enum.map(elements, fn x ->
+          cond do
+            x["id"] == new_elem["id"] && x["type"] == new_elem["type"] ->
+              new_elem
+            true -> x
+          end
+        end)
+      # NEW element
+      true -> elements ++ [new_elem]
+    end
+  end
+
   @doc """
   Creates a room.
 
@@ -125,5 +154,19 @@ defmodule Eerf.Rooms do
   """
   def change_room(%Room{} = room) do
     Room.changeset(room, %{})
+  end
+
+  def is_element_valid?(%Room{} = room, "Restricted Space", message, socket) do
+    # TODO
+    IO.puts "elements ? #{inspect room}"
+    #Enum.any?(room.elements, fn x ->
+
+    #end)
+
+    false
+  end
+
+  def is_element_valid?(%Room{} = room, tool, message, socket) do
+    true
   end
 end

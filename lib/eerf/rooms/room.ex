@@ -2,7 +2,6 @@ defmodule Eerf.Rooms.Room do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "rooms" do
     field :elements, {:array, :map}, default: []
     field :name, :string
