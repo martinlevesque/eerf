@@ -156,14 +156,39 @@ defmodule Eerf.Rooms do
     Room.changeset(room, %{})
   end
 
+  def has_keys_in_element?(element, keys) do
+    Enum.all?(keys, fn k -> Map.has_key?(element, k) end)
+  end
+
+  def box_overlap_in_box?(x, x2, y, y2, elem) do
+    elem["x"] > x2 || elem["x2"] < x
+  end
+
+  def overlap_in_box?(x, x2, y, y2, elem) do
+
+    cond do
+      has_keys_in_element?(elem, ["x", "y", "x2", "y2"]) ->
+        box_overlap_in_box?(x, x2, y, y2, elem)
+    end
+
+  end
+
   def is_element_valid?(%Room{} = room, "Restricted Space", message, socket) do
     # TODO
-    IO.puts "elements ? #{inspect room}"
-    #Enum.any?(room.elements, fn x ->
+    IO.puts "message -_--> ? #{inspect message}"
+    res = Enum.any?(room.elements, fn x ->
+      IO.puts "xxx -> #{inspect x}"
 
-    #end)
+      #x   x2
 
-    false
+      #y   y2
+
+      false
+    end)
+
+    IO.puts "res ? #{inspect res}"
+
+    true
   end
 
   def is_element_valid?(%Room{} = room, tool, message, socket) do
