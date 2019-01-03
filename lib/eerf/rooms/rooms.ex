@@ -160,17 +160,20 @@ defmodule Eerf.Rooms do
     Enum.all?(keys, fn k -> Map.has_key?(element, k) end)
   end
 
-  def box_overlap_in_box?(x, x2, y, y2, elem) do
-    elem["x"] > x2 || elem["x2"] < x
+  def box_overlap_in_box?(elem1, elem2) do
+    cond do
+      elem1["x"] > elem2["x2"] || elem2["x"] > elem1["x2"] -> false
+      elem1["y"] > elem2["y2"] || elem2["y"] > elem1["y2"] -> false
+      true -> true
+    end
   end
 
-  def overlap_in_box?(x, x2, y, y2, elem) do
-
+  def box_is_overlapping?(elem1, elem2) do
     cond do
-      has_keys_in_element?(elem, ["x", "y", "x2", "y2"]) ->
-        box_overlap_in_box?(x, x2, y, y2, elem)
+      has_keys_in_element?(elem2, ["x", "y", "x2", "y2"]) ->
+        box_overlap_in_box?(elem1, elem2)
+      true -> false
     end
-
   end
 
   def is_element_valid?(%Room{} = room, "Restricted Space", message, socket) do

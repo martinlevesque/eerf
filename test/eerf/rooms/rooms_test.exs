@@ -64,5 +64,82 @@ defmodule Eerf.RoomsTest do
       room = room_fixture()
       assert %Ecto.Changeset{} = Rooms.change_room(room)
     end
+
+    test "box_is_overlapping?/2 with two non overlapping boxes" do
+
+      first_box = %{
+        "x" => 5,
+        "x2" => 15,
+        "y" => 2,
+        "y2" => 10
+      }
+
+      other_box = %{
+        "x" => 16,
+        "x2" => 20,
+        "y" => 2,
+        "y2" => 10
+      }
+
+      assert false == Rooms.box_is_overlapping?(first_box, other_box)
+    end
+
+    test "box_is_overlapping?/2 with partially overlapping" do
+      first_box = %{
+        "x" => 5,
+        "x2" => 15,
+        "y" => 2,
+        "y2" => 10
+      }
+
+      other_box = %{
+        "x" => 7,
+        "x2" => 17,
+        "y" => 4,
+        "y2" => 12
+      }
+
+      assert true == Rooms.box_is_overlapping?(first_box, other_box)
+    end
+
+    test "box_is_overlapping?/2 with two identical boxes" do
+
+      first_box = %{
+        "x" => 5,
+        "x2" => 15,
+        "y" => 2,
+        "y2" => 10
+      }
+
+      second_box = %{
+        "x" => 5,
+        "x2" => 15,
+        "y" => 2,
+        "y2" => 10
+      }
+
+      assert true == Rooms.box_is_overlapping?(first_box, second_box)
+    end
+
+    test "has_keys_in_element?/2 with all keys" do
+      first_box = %{
+        "x" => 5,
+        "x2" => 15,
+        "y" => 2,
+        "y2" => 10
+      }
+
+      assert true == Rooms.has_keys_in_element?(first_box, ["x", "x2", "y", "y2"])
+    end
+
+    test "has_keys_in_element?/2 with missing keys" do
+      first_box = %{
+        "x" => 5,
+        "x2" => 15,
+        "y" => 2
+      }
+
+      assert false == Rooms.has_keys_in_element?(first_box, ["x", "x2", "y", "y2"])
+    end
   end
 end
