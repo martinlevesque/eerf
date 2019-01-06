@@ -187,8 +187,14 @@ function mainBoard() {
 	Tools.drawAndSend = function (data) {
 		channelRoom.push('validate-element', data)
 			.receive('ok', function(msgId, msgData) {
+				console.log('ok')
 				Tools.curTool.draw(data, true);
 				Tools.send(data);
+			})
+			.receive('nok', function(msgId, msgData) {
+				console.log('nokk ??')
+				console.log(msgId)
+				console.log(msgData)
 			})
 	};
 

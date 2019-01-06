@@ -102,6 +102,8 @@ defmodule EerfWeb.RoomChannel do
     try do
       room = get_room_from_socket(socket)
 
+      IO.puts "validate element mesg #{inspect message}"
+
       status_result =
         case Eerf.Rooms.is_element_valid?(room, message["tool"], message, socket) do
           true -> :ok

@@ -168,10 +168,21 @@ defmodule Eerf.Rooms do
     end
   end
 
+  def dot_overlap_in_box?(elem1, dot) do
+    dot["x"] >= elem1["x"] && dot["x"] <= elem1["x2"] &&
+    dot["y"] >= elem1["y"] && dot["y"] <= elem1["y2"] 
+  end
+
   def box_is_overlapping?(elem1, elem2) do
     cond do
+      elem1["id"] && elem2["id"] && elem1["id"] == elem2["id"] -> false
+      elem1["parent"] && elem2["id"] && elem1["parent"] == elem2["id"] -> false
+      elem2["parent"] && elem1["id"] && elem2["parent"] == elem1["id"] -> false
+      elem1["parent"] && elem2["parent"] && elem1["parent"] == elem2["parent"] -> false
       has_keys_in_element?(elem2, ["x", "y", "x2", "y2"]) ->
         box_overlap_in_box?(elem1, elem2)
+      has_keys_in_element?(elem2, ["x", "y"]) ->
+        dot_overlap_in_box?(elem1, elem2)
       true -> false
     end
   end
@@ -179,19 +190,13 @@ defmodule Eerf.Rooms do
   def is_element_valid?(%Room{} = room, "Restricted Space", message, socket) do
     # TODO
     IO.puts "message -_--> ? #{inspect message}"
-    res = Enum.any?(room.elements, fn x ->
-      IO.puts "xxx -> #{inspect x}"
-
-      #x   x2
-
-      #y   y2
-
-      false
+    any_overlap = Enum.any?(room.elements, fn room_element ->
+      box_is_overlapping?(message, room_element)
     end)
 
-    IO.puts "res ? #{inspect res}"
+    IO.puts "res ? #{inspect any_overlap}"
 
-    true
+    ! any_overlap
   end
 
   def is_element_valid?(%Room{} = room, tool, message, socket) do

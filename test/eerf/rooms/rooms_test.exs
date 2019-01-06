@@ -121,6 +121,40 @@ defmodule Eerf.RoomsTest do
       assert true == Rooms.box_is_overlapping?(first_box, second_box)
     end
 
+    test "box_is_overlapping?/2 with dot within box" do
+
+      first_box = %{
+        "x" => 5,
+        "x2" => 15,
+        "y" => 2,
+        "y2" => 10
+      }
+
+      dot = %{
+        "x" => 8,
+        "y" => 5
+      }
+
+      assert true == Rooms.box_is_overlapping?(first_box, dot)
+    end
+
+    test "box_is_overlapping?/2 with dot outside box" do
+
+      first_box = %{
+        "x" => 5,
+        "x2" => 15,
+        "y" => 2,
+        "y2" => 10
+      }
+
+      dot = %{
+        "x" => 16,
+        "y" => 5
+      }
+
+      assert false == Rooms.box_is_overlapping?(first_box, dot)
+    end
+
     test "has_keys_in_element?/2 with all keys" do
       first_box = %{
         "x" => 5,
